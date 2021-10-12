@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../constants.dart';
+import 'package:pokemon_app/constants.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -24,7 +24,6 @@ class SearchPage extends StatelessWidget {
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsets.all(20),
@@ -61,12 +60,12 @@ class SearchPage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            width: 200,
-            child: Image.asset(
-              'assets/images/pokemon_location.png',
-              fit: BoxFit.cover,
-            ),
+          const SizedBox(
+            height: 100,
+          ),
+          Image.asset(
+            'assets/images/pokemon_location.png',
+            fit: BoxFit.cover,
           ),
         ],
       ),

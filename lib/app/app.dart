@@ -28,8 +28,8 @@ class _AppState extends State<App> {
       initialRoute: '/',
       routes: {
         '/': (context) => const MainPage(),
-        '/search': (context) => const SearchPage(),
-        '/random_pokemon': (context) => const RandomPokemonPage()
+        '/search': (context) => SearchPage(),
+        '/random_pokemon': (context) => RandomPokemonPage()
       },
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -8,4 +10,9 @@ class AppColors {
   static const Color yellow = Color.fromARGB(255, 255, 212, 0);
   static const Color yellowHint = Color.fromARGB(200, 255, 212, 0);
   static const Color white = Colors.white;
+}
+
+int getRandomInt(int min, int max) {
+  int randomNumber = Random().nextInt(max) + min;
+  return randomNumber;
 }

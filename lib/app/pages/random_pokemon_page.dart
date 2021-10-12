@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_app/app/widgets/pokemon_card.dart';
+import 'package:pokemon_app/app/widgets/random_button.dart';
+import 'package:pokemon_app/bloc/pokemon_bloc.dart';
+import 'package:pokemon_app/bloc/pokemon_event.dart';
+import 'package:pokemon_app/services/pokemon_repository.dart';
 
 import '../../constants.dart';
 
 class RandomPokemonPage extends StatelessWidget {
-  const RandomPokemonPage({Key? key}) : super(key: key);
+  RandomPokemonPage({Key? key}) : super(key: key);
+
+  final pokemonRepository = PokemonRepository();
 
   @override
   Widget build(BuildContext context) {
@@ -22,41 +30,16 @@ class RandomPokemonPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Image.asset(
-              'assets/images/egg.png',
-              fit: BoxFit.cover,
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                fixedSize: MaterialStateProperty.all(
-                  const Size(250, 80),
-                ),
-                backgroundColor: MaterialStateProperty.all(AppColors.dark),
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.symmetric(vertical: 4, horizontal: 60),
-                ),
-                shape: MaterialStateProperty.all(
-                  const RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                ),
-              ),
-              onPressed: () {},
-              child: const Text(
-                'Random Pokemon',
-                style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 30,
-                ),
-              ),
-            ),
-          ],
+      body: BlocProvider<PokemonBloc>(
+        create: (context) => PokemonBloc(pokemonRepository: pokemonRepository),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const <Widget>[
+              PokemonCard(),
+              RandomButton(),
+            ],
+          ),
         ),
       ),
     );
