@@ -26,7 +26,7 @@ class RandomButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        pokemonBloc.add(PokemonLoadEvent());
+        pokemonBloc.add(LoadRandomPokemonEvent());
       },
       child: const Text(
         'Random Pokemon',

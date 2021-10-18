@@ -58,7 +58,8 @@ class MainPage extends StatelessWidget {
                         BorderRadius.vertical(bottom: Radius.circular(20)),
                   ),
                 ),
-                overlayColor: MaterialStateProperty.all(AppColors.redSplash),
+                overlayColor:
+                    MaterialStateProperty.all(AppColors.red.withAlpha(50)),
                 fixedSize: MaterialStateProperty.all(btnSize),
                 backgroundColor: MaterialStateProperty.all(AppColors.white),
                 foregroundColor: MaterialStateProperty.all(AppColors.dark),

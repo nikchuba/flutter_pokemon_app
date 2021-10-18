@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-
-import 'package:pokemon_app/constants.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_app/app/widgets/pokemon_bloc_builder.dart';
+import 'package:pokemon_app/app/widgets/search_input.dart';
+import 'package:pokemon_app/bloc/pokemon_bloc.dart';
+import 'package:pokemon_app/services/pokemon_repository.dart';
 
 class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
+  SearchPage({Key? key}) : super(key: key);
+  final pokemonRepository = PokemonRepository();
+  final String name = 'SearchPage';
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height * 0.1;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -22,52 +28,21 @@ class SearchPage extends StatelessWidget {
           ],
         ),
       ),
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20),
-            child: TextField(
-              cursorColor: AppColors.white,
-              cursorHeight: 22,
-              style: const TextStyle(color: AppColors.yellow, fontSize: 20),
-              decoration: InputDecoration(
-                contentPadding: const EdgeInsets.all(20),
-                hintText: "Enter name of Pokemon",
-                hintStyle: const TextStyle(color: AppColors.yellowHint),
-                border: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+      body: BlocProvider<PokemonBloc>(
+        create: (context) => PokemonBloc(pokemonRepository: pokemonRepository),
+        child: ListView(
+          children: [
+            Column(
+              children: [
+                const SearchInput(),
+                SizedBox(
+                  height: height,
                 ),
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(style: BorderStyle.none),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.yellow,
-                    width: 3,
-                  ),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                filled: true,
-                fillColor: AppColors.dark,
-                suffixIcon: IconButton(
-                  iconSize: 40,
-                  color: AppColors.yellow,
-                  onPressed: () {},
-                  icon: const Icon(Icons.search_rounded),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 100,
-          ),
-          Image.asset(
-            'assets/images/pokemon_location.png',
-            fit: BoxFit.cover,
-          ),
-        ],
+                PokemonBlocBuilder(parent: name),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }

@@ -24,6 +24,8 @@ class _AppState extends State<App> {
           backgroundColor: AppColors.dark,
           centerTitle: true,
         ),
+        colorScheme:
+            ColorScheme.fromSwatch().copyWith(secondary: AppColors.yellow),
       ),
       initialRoute: '/',
       routes: {
