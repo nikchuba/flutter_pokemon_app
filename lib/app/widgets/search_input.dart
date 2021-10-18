@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pokemon_app/app/widgets/search_button.dart';
 import 'package:pokemon_app/constants.dart';
 
@@ -18,6 +19,13 @@ class _SearchInputState extends State<SearchInput> {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: TextField(
+        inputFormatters: <TextInputFormatter>[
+          FilteringTextInputFormatter.allow(
+            // ignore: unnecessary_string_escapes
+            RegExp("\^\[A-Za-z-\]+\$"),
+            replacementString: controller.text,
+          ),
+        ],
         controller: controller,
         onChanged: (value) {
           (value.length >= 2)

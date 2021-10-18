@@ -17,9 +17,9 @@ class SearchButton extends StatelessWidget {
       highlightColor: AppColors.yellow,
       color: AppColors.yellow,
       onPressed: () {
-        LoadPokemonByNameEvent.name = controller.text;
-        pokemonBloc.add(LoadPokemonByNameEvent());
+        LoadPokemonByNameEvent.name = controller.text.toLowerCase();
         controller.text = '';
+        pokemonBloc.add(LoadPokemonByNameEvent());
       },
       icon: const Icon(Icons.search_rounded),
     );
