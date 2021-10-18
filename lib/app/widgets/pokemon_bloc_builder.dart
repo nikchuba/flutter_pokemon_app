@@ -4,6 +4,7 @@ import 'package:pokemon_app/app/widgets/pokemon_card.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc.dart';
 import 'package:pokemon_app/bloc/pokemon_state.dart';
 import 'package:pokemon_app/constants.dart';
+import 'package:pokemon_app/models/pokemon.dart';
 
 // ignore: must_be_immutable
 class PokemonBlocBuilder extends StatelessWidget {
@@ -48,7 +49,11 @@ class PokemonBlocBuilder extends StatelessWidget {
           }
           if (state is PokemonLoadedState) {
             var pokemon = state.pokemon;
-            return PokemonCard(pokemon: pokemon);
+
+            return PokemonCard(
+              pokemon: pokemon,
+              key: ValueKey<Pokemon>(state.pokemon),
+            );
           }
           if (state is PokemonNotFoundState) {
             return Center(

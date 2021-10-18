@@ -55,23 +55,32 @@ class _PokemonCardState extends State<PokemonCard> {
                 });
               },
               itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    color: AppColors.white,
-                  ),
-                  child: Image.network(
-                    validSprites[index]['url'],
-                    fit: BoxFit.contain,
+                return AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 900),
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                    height: 200,
+                    width: 200,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                      color: AppColors.white,
+                    ),
+                    child: Image.network(
+                      validSprites[index]['url'],
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 );
               },
             ),
           ),
-          Text(
-            '${validSprites[_currentPage]["name"]} side:',
-            style: PokemonCard.style,
+          AnimatedSwitcher(
+            duration: const Duration(milliseconds: 300),
+            child: Text(
+              '${validSprites[_currentPage]["name"]} side:',
+              key: ValueKey<int>(_currentPage),
+              style: PokemonCard.style,
+            ),
           ),
           Text(
             'Name: ${widget.pokemon.name.replaceFirst(widget.pokemon.name[0], widget.pokemon.name[0].toUpperCase())}',
