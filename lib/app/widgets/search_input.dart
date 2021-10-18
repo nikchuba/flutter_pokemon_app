@@ -11,7 +11,7 @@ class SearchInput extends StatefulWidget {
 
 class _SearchInputState extends State<SearchInput> {
   final TextEditingController controller = TextEditingController();
-  dynamic Function(String)? onInput;
+  bool _isValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +20,13 @@ class _SearchInputState extends State<SearchInput> {
       child: TextField(
         controller: controller,
         onChanged: (value) {
+          (value.length >= 2)
+              ? setState(() {
+                  _isValid = true;
+                })
+              : setState(() {
+                  _isValid = false;
+                });
           final trimVal = value.trim();
           (value != trimVal)
               ? setState(() {
@@ -27,7 +34,7 @@ class _SearchInputState extends State<SearchInput> {
                   controller.selection = TextSelection.fromPosition(
                       TextPosition(offset: trimVal.length));
                 })
-              : onInput!(trimVal);
+              : null;
         },
         cursorColor: AppColors.white,
         cursorHeight: 22,
@@ -52,7 +59,7 @@ class _SearchInputState extends State<SearchInput> {
           ),
           filled: true,
           fillColor: AppColors.dark,
-          suffixIcon: SearchButton(controller: controller),
+          suffixIcon: _isValid ? SearchButton(controller: controller) : null,
         ),
       ),
     );

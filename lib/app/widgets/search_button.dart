@@ -13,12 +13,13 @@ class SearchButton extends StatelessWidget {
     final PokemonBloc pokemonBloc = BlocProvider.of<PokemonBloc>(context);
     return IconButton(
       iconSize: 40,
+      splashColor: AppColors.yellow,
+      highlightColor: AppColors.yellow,
       color: AppColors.yellow,
       onPressed: () {
         LoadPokemonByNameEvent.name = controller.text;
         pokemonBloc.add(LoadPokemonByNameEvent());
-        print(controller.text);
-        print(LoadPokemonByNameEvent.pokemonName);
+        controller.text = '';
       },
       icon: const Icon(Icons.search_rounded),
     );
