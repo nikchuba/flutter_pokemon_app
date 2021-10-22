@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/app/widgets/search_button.dart';
+import 'package:pokemon_app/bloc/pokemon_bloc.dart';
+import 'package:pokemon_app/bloc/pokemon_event.dart';
 import 'package:pokemon_app/constants.dart';
 
 class SearchInput extends StatefulWidget {
@@ -13,9 +16,20 @@ class SearchInput extends StatefulWidget {
 class _SearchInputState extends State<SearchInput> {
   final TextEditingController controller = TextEditingController();
   bool _isValid = false;
+  bool _isFocus = false;
+  void callback(pokemonBloc) {
+    LoadPokemonByNameEvent.name = controller.text.toLowerCase();
+    pokemonBloc.add(LoadPokemonByNameEvent());
+    setState(() {
+      _isValid = false;
+      _isFocus = false;
+      controller.text = '';
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    final PokemonBloc pokemonBloc = BlocProvider.of<PokemonBloc>(context);
     return Padding(
       padding: const EdgeInsets.all(20),
       child: TextField(
@@ -27,20 +41,20 @@ class _SearchInputState extends State<SearchInput> {
           ),
         ],
         controller: controller,
+        autofocus: _isFocus,
         onChanged: (value) {
-          (value.length >= 2)
-              ? setState(() {
-                  _isValid = true;
-                })
-              : setState(() {
-                  _isValid = false;
-                });
           final trimVal = value.trim();
+
+          (value.length >= 2)
+              ? setState(() => _isValid = true)
+              : setState(() => _isValid = false);
+
           (value != trimVal)
               ? setState(() {
                   controller.text = trimVal;
                   controller.selection = TextSelection.fromPosition(
-                      TextPosition(offset: trimVal.length));
+                    TextPosition(offset: trimVal.length),
+                  );
                 })
               : null;
         },
@@ -49,7 +63,7 @@ class _SearchInputState extends State<SearchInput> {
         style: const TextStyle(color: AppColors.yellow, fontSize: 20),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(20),
-          hintText: "Enter name of Pokemon",
+          hintText: '${texts['searchHint']}',
           hintStyle: TextStyle(color: AppColors.yellow.withAlpha(200)),
           border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -67,7 +81,8 @@ class _SearchInputState extends State<SearchInput> {
           ),
           filled: true,
           fillColor: AppColors.dark,
-          suffixIcon: _isValid ? SearchButton(controller: controller) : null,
+          suffixIcon:
+              _isValid ? SearchButton(() => callback(pokemonBloc)) : null,
         ),
       ),
     );

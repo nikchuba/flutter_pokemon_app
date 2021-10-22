@@ -7,6 +7,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const Size btnSize = Size(286, 70);
+    const TextStyle style = TextStyle(fontSize: 48);
 
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +41,7 @@ class MainPage extends StatelessWidget {
                 fixedSize: MaterialStateProperty.all(btnSize),
                 backgroundColor: MaterialStateProperty.all(AppColors.red),
               ),
-              child: const Text('Search', style: TextStyle(fontSize: 48)),
+              child: Text('${texts["searchBtn"]}', style: style),
             ),
             Container(
               color: AppColors.dark,
@@ -64,7 +65,7 @@ class MainPage extends StatelessWidget {
                 backgroundColor: MaterialStateProperty.all(AppColors.white),
                 foregroundColor: MaterialStateProperty.all(AppColors.dark),
               ),
-              child: const Text('Random', style: TextStyle(fontSize: 48)),
+              child: Text('${texts["randomBtn"]}', style: style),
             ),
           ],
         ),

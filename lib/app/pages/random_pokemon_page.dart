@@ -3,12 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_app/app/widgets/pokemon_bloc_builder.dart';
 import 'package:pokemon_app/app/widgets/random_button.dart';
 import 'package:pokemon_app/bloc/pokemon_bloc.dart';
+import 'package:pokemon_app/bloc/pokemon_event.dart';
+import 'package:pokemon_app/constants.dart';
 import 'package:pokemon_app/services/pokemon_repository.dart';
 
 class RandomPokemonPage extends StatelessWidget {
   RandomPokemonPage({Key? key}) : super(key: key);
   final pokemonRepository = PokemonRepository();
   final String name = 'RandomPokemonPage';
+  static callback(BuildContext context) {
+    BlocProvider.of<PokemonBloc>(context).add(LoadRandomPokemonEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,7 @@ class RandomPokemonPage extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            const Text('Random'),
+            Text('${texts["randomPage"]}'),
           ],
         ),
       ),
@@ -34,7 +39,7 @@ class RandomPokemonPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               PokemonBlocBuilder(parent: name),
-              const RandomButton(),
+              const RandomButton(callback),
             ],
           ),
         ),

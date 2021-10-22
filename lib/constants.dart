@@ -14,3 +14,11 @@ int getRandomInt(int min, int max) {
   int randomNumber = Random().nextInt(max) + min;
   return randomNumber;
 }
+
+Map<String, String> texts = {
+  'searchPage': 'Pokemon search page',
+  'randomPage': 'Random Pokemon page',
+  'searchBtn': 'Search',
+  'randomBtn': 'Random',
+  'searchHint': 'Enter name of Pokemon'
+};
