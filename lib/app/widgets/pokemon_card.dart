@@ -16,17 +16,9 @@ class PokemonCard extends StatefulWidget {
 }
 
 class _PokemonCardState extends State<PokemonCard> {
-  List<dynamic> validSprites = [];
   int _currentPage = 0;
-
   @override
   Widget build(BuildContext context) {
-    validSprites = [];
-    for (var sprite in widget.pokemon.sprites.list) {
-      if (sprite['url'] != null) {
-        validSprites.add(sprite);
-      }
-    }
     return Container(
       width: 300,
       height: 400,
@@ -47,7 +39,7 @@ class _PokemonCardState extends State<PokemonCard> {
             width: 230,
             child: PageView.builder(
               physics: const BouncingScrollPhysics(),
-              itemCount: validSprites.length,
+              itemCount: widget.pokemon.sprites.list.length,
               controller: PageController(initialPage: _currentPage),
               onPageChanged: (int page) {
                 setState(() {
@@ -66,7 +58,7 @@ class _PokemonCardState extends State<PokemonCard> {
                       color: AppColors.white,
                     ),
                     child: Image.network(
-                      validSprites[index]['url'],
+                      widget.pokemon.sprites.list[index]['url'],
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -77,7 +69,7 @@ class _PokemonCardState extends State<PokemonCard> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: Text(
-              '${validSprites[_currentPage]["name"]} side:',
+              '${widget.pokemon.sprites.list[_currentPage]["name"]} side:',
               key: ValueKey<int>(_currentPage),
               style: PokemonCard.style,
             ),

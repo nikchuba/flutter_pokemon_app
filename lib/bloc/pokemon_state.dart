@@ -14,4 +14,6 @@ class PokemonNotFoundState extends PokemonState {
   static set name(String text) => pokemonName = text;
 }
 
+class LocalPokemonState extends PokemonState {}
+
 class PokemonErrorState extends PokemonState {}
