@@ -31,11 +31,9 @@ class Sprites {
     List<dynamic> validSprites = [];
     json.forEach((key, value) {
       if (key != 'other' && key != 'versions' && value != null) {
-        validSprites.add({'url': value, 'name': key.replaceAll('_', ' ')});
+        validSprites.add({'url': value, 'name': key});
       }
     });
-    return Sprites(
-      validSprites,
-    );
+    return Sprites(validSprites);
   }
 }

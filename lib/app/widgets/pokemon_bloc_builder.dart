@@ -11,6 +11,11 @@ class PokemonBlocBuilder extends StatelessWidget {
   String? parent;
   PokemonBlocBuilder({required this.parent, Key? key}) : super(key: key);
 
+  String errorMsg = 'Error';
+  String getAlertNotFound(name) {
+    return 'Pokemon with name "$name" was not found';
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -67,7 +72,7 @@ class PokemonBlocBuilder extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'Pokemon with name "${PokemonNotFoundState.pokemonName}" was not found',
+                  getAlertNotFound(PokemonNotFoundState.pokemonName),
                   style: const TextStyle(
                     color: AppColors.yellow,
                     fontSize: 20,
@@ -85,7 +90,7 @@ class PokemonBlocBuilder extends StatelessWidget {
               ),
             );
           }
-          return throw Exception('Error');
+          return throw Exception(errorMsg);
         },
       ),
     );

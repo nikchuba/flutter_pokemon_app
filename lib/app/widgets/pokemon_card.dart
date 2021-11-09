@@ -69,7 +69,7 @@ class _PokemonCardState extends State<PokemonCard> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 300),
             child: Text(
-              '${widget.pokemon.sprites.list[_currentPage]["name"]} side:',
+              '${widget.pokemon.sprites.list[_currentPage]["name"].toString().replaceAll('_', ' ')} side:',
               key: ValueKey<int>(_currentPage),
               style: PokemonCard.style,
             ),

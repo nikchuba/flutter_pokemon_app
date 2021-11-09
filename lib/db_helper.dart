@@ -31,48 +31,48 @@ class DBHelper {
 
   Future<void> insert(Pokemon pokemon) async {
     Database? dbClient = await db;
-    try {
-      await dbClient?.rawInsert(
-          """INSERT INTO pokemones (id, name, height, weight) VALUES (
-        '${pokemon.id}', '${pokemon.name}', '${pokemon.height}', '${pokemon.weight}'
-      )""");
+    String insertPokemon =
+        "INSERT INTO pokemones (id, name, height, weight) VALUES ('${pokemon.id}', '${pokemon.name}', '${pokemon.height}', '${pokemon.weight}')";
+    String queryCreateTable =
+        "CREATE TABLE ${pokemon.name} (url TEXT, name TEXT)";
 
-      await dbClient?.execute("""CREATE TABLE ${pokemon.name} (
-        url TEXT,
-        name TEXT
-      )""");
+    try {
+      await dbClient?.rawInsert(insertPokemon);
+
+      await dbClient?.execute(queryCreateTable);
 
       for (var i = 0; i < pokemon.sprites!.list.length; i++) {
-        dbClient?.rawInsert("""INSERT INTO ${pokemon.name} (url, name) VALUES (
-          '${pokemon.sprites!.list[i]["url"]}',
-          '${pokemon.sprites!.list[i]["name"].toString().replaceAll(' ', '_')}'
-        )""");
+        String insertSprites =
+            "INSERT INTO ${pokemon.name} (url, name) VALUES ('${pokemon.sprites!.list[i]["url"]}', '${pokemon.sprites!.list[i]["name"]}')";
+        dbClient?.rawInsert(insertSprites);
       }
     } on DatabaseException catch (_) {}
   }
 
   Future<dynamic> getPokemonByName(String name) async {
     Database? dbClient = await db;
+    List<dynamic> list = [];
+    Map<String, dynamic> poke = {};
+
+    String queryPokemon = 'SELECT * FROM pokemones WHERE name = "$name"';
+    String querySprites = 'SELECT * FROM $name';
 
     try {
-      dynamic pokeRes = await dbClient
-          ?.rawQuery('SELECT * FROM pokemones WHERE name = "$name"');
-      dynamic spritesRes = await dbClient?.rawQuery('SELECT * FROM $name');
-      List<dynamic> list = [];
+      dynamic pokeRes = await dbClient?.rawQuery(queryPokemon);
+      dynamic spritesRes = await dbClient?.rawQuery(querySprites);
+
       list = spritesRes;
       Map<String, dynamic> sprites = {};
       for (var item in list) {
         sprites['${item["name"]}'] = item['url'];
       }
-      Map<String, dynamic> poke = {};
       poke.addAll(pokeRes[0]);
       poke['sprites'] = sprites;
-      print(sprites);
       Pokemon pokemon = Pokemon.fromJson(poke);
 
       return pokemon;
     } on DatabaseException catch (_) {
-      return null;
+      return false;
     }
   }
 }
